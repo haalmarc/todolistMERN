@@ -13,11 +13,11 @@ app.use(express.static(path.join(__dirname, "client/build")));
 
 // Set up database
 const localUrl = "mongodb://localhost:27017/";
-const remoteUrl = "";
+const remoteUrl = `mongodb+srv://${process.env.todolistUser}:${process.env.todolistPW}@todolistcluster.cnori.mongodb.net/`;
 const dbName = "todoDB";
 
 // Connect to database, either local or remote
-mongoose.connect(`${localUrl}${dbName}`, {
+mongoose.connect(`${remoteUrl}${dbName}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
@@ -79,14 +79,6 @@ app.post("/api/data", (req, res) => {
   res.redirect("/");
 });
 
-// TODO: Legge til delete- rute for å slette todos
-
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/client/build/index.html"));
-});
-
 app.delete("/api/data", (req, res) => {
   const todoId = req.body;
   Todo.deleteOne({ _id: todoId }, (err) => {
@@ -96,6 +88,11 @@ app.delete("/api/data", (req, res) => {
       res.redirect("/");
     }
   });
+});
+
+// Catch-all-handler: For requests som ikke passer med andre ruter.
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
 const port = process.env.PORT || 5000;

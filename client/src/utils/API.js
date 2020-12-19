@@ -4,7 +4,6 @@ const endpoint = "api/data"; // client is proxied to localhost:5000/
 
 export const getData = async () => {
   const res = await axios.get(endpoint);
-  console.log(res.data);
   return res.data;
 };
 

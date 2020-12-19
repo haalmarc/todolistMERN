@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const Button = styled.button`
-  /* This renders the buttons above... Edit me! */
+  margin-top: 0.5em;
   display: inline;
   border-radius: 0 3px 3px 0;
   padding: 0.2 0.5em;

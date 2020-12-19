@@ -6,14 +6,9 @@ import React, { useEffect, useState } from "react";
 import { deleteTodo, getData, postNewTodo } from "./utils/API";
 
 const Wrapper = styled.div`
-  margin: 2em;
-  padding: 1.5em;
+  padding: 0.5em 1.5em 1.5em 1.5em;
   background-color: burlywood;
   border-radius: 12px;
-`;
-
-const Title = styled.h2`
-  font-family: "Lucida Handwriting";
 `;
 
 function App() {
@@ -40,7 +35,7 @@ function App() {
 
   return (
     <Wrapper>
-      <Title>Hva er dagens plan?</Title>
+      <h2>Hva er dagens plan?</h2>
       <TodoDisplay todos={todos} handleDelete={handleDelete} />
       <NewTodo handleSubmit={handleSubmit} />
     </Wrapper>
