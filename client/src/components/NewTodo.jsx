@@ -15,7 +15,7 @@ export default function NewTodo({ handleSubmit }) {
   const [text, setText] = useState("");
 
   function submitText() {
-    if (text.length > 0) {
+    if (text.length > 0 && text.length < 90) {
       handleSubmit(text);
       setText("");
     }
