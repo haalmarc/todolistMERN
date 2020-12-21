@@ -12,5 +12,5 @@ export const postNewTodo = (text) => {
 };
 
 export const deleteTodo = (id) => {
-  axios.delete(endpoint, { data: id });
+  axios.delete(`${endpoint}/${id}`);
 };

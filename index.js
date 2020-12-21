@@ -17,7 +17,7 @@ const remoteUrl = `mongodb+srv://${process.env.todolistUser}:${process.env.todol
 const dbName = "todoDB";
 
 // Connect to database, either local or remote
-mongoose.connect(`${remoteUrl}${dbName}`, {
+mongoose.connect(`${localUrl}${dbName}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
@@ -42,50 +42,49 @@ const todo2 = new Todo({
 
 const defaultItems = [todo1, todo2];
 
-// API-endpoint
-app.get("/api/data", (req, res) => {
-  // Add default items if empty, else display earlier entries.
-  // Read
-  Todo.find({}, (err, results) => {
-    if (err) {
-      console.log(err);
-    } else {
-      if (results.length === 0) {
-        // Update
-        Todo.insertMany(defaultItems, (err) => {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log("Successfully added default items to database.");
-          }
-        });
-        res.redirect("/api/data");
+app
+  .route("/api/data")
+
+  .get((req, res) => {
+    // Add default items if empty, else display earlier entries.
+    // Read
+    Todo.find({}, (err, results) => {
+      if (err) {
+        console.log(err);
       } else {
-        res.json(results);
+        if (results.length === 0) {
+          // Update
+          Todo.insertMany(defaultItems, (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log("Successfully added default items to database.");
+            }
+          });
+          res.redirect("/api/data");
+        } else {
+          res.json(results);
+        }
       }
-    }
+    });
+  })
+
+  .post((req, res) => {
+    const todoName = req.body;
+
+    const todo = new Todo({
+      name: todoName,
+    });
+
+    todo.save();
   });
-});
 
-// TODO: Legge til postrute for å legge til todos
-app.post("/api/data", (req, res) => {
-  const todoName = req.body;
-
-  const todo = new Todo({
-    name: todoName,
-  });
-
-  todo.save();
-  res.redirect("/");
-});
-
-app.delete("/api/data", (req, res) => {
-  const todoId = req.body;
+app.delete("/api/data/:todoId", (req, res) => {
+  const todoId = req.params.todoId;
   Todo.deleteOne({ _id: todoId }, (err) => {
     if (err) return console.log(err);
     else {
       console.log("Successfully deleted.");
-      res.redirect("/");
     }
   });
 });
