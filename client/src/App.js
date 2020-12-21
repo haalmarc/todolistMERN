@@ -9,6 +9,8 @@ const Wrapper = styled.div`
   padding: 0.5em 1.5em 1.5em 1.5em;
   background-color: burlywood;
   border-radius: 12px;
+  max-width: 500px;
+  margin: auto;
 `;
 
 function App() {
