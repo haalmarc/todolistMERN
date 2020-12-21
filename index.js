@@ -17,7 +17,7 @@ const remoteUrl = `mongodb+srv://${process.env.todolistUser}:${process.env.todol
 const dbName = "todoDB";
 
 // Connect to database, either local or remote
-mongoose.connect(`${localUrl}${dbName}`, {
+mongoose.connect(`${remoteUrl}${dbName}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
